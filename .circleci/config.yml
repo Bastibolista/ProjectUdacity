@@ -160,7 +160,8 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "f9:12:37:28:57:7b:c9:02:da:4a:5e:b0:23:c0:f0:54"
-      # attach workspace
+      - attach_workspace:
+          at: ~/
       - run:
           name: Install dependencies
           command: |
@@ -169,8 +170,11 @@ jobs:
             apt install ansible -y
             which ansible
       - run: apt install -y tar gzip awscli
-      - attach_workspace:
-          at: ~/
+      - run:
+          name: Verify 
+          command: |
+            cd .circleci/ansible
+            cat inventory.txt
       - run:
           name: Configure server
           command: |

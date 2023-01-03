@@ -23,7 +23,3 @@
     global: yes
     production: yes
     state: present
-
-- name: "verify inventory"
-  shell: |
-    cat ~/project/.circleci/ansible/inventory.txt
