@@ -171,9 +171,11 @@ jobs:
             which ansible
       - run: apt install -y tar gzip awscli
       - run:
-          name: Verify 
+          name: Verify inventory
           command: |
             cd .circleci/ansible
+            cat inventory.txt
+            sed -i '/^$/d' inventory.txt
             cat inventory.txt
       - run:
           name: Configure server
