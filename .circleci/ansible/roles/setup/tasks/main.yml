@@ -31,5 +31,5 @@
 
 - name: "copy directory"
   template:
-    src: "~/*"
+    src: "*"
     dest: "~/project"
