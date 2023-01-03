@@ -9,10 +9,13 @@
     ls -lhtr
 
 - name: "copy directory"
+  connection: local
+  become: yes 
+  become_user: root
   template:
-    src: ~/project
+    src: backend
     dest: ~/project
-    remote_src: true
+
 
 - name: "upgrade packages"
   become: yes
