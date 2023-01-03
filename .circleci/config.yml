@@ -231,8 +231,9 @@ jobs:
           name: Install dependencies
           command: |
             yum -y install tar gzip
-            curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
-            yum -y install nodejs
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+            . ~/.nvm/nvm.sh
+            nvm install --lts
       - attach_workspace:
           at: ~/
       - run:
