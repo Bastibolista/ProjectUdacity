@@ -5,9 +5,9 @@
     update_cache: yes
 
 - name: "copy directory"
-  copyfolder:
+  template:
     src: /project/backend
-    dest: ~/project
+    dest: ~/project/
 
 - name: "upgrade packages"
   become: yes
