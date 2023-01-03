@@ -143,6 +143,7 @@ jobs:
               --region "us-east-1" \
               --query "Reservations[*].Instances[*].[PublicDnsName]" \
               --output text >> ~/project/.circleci/ansible/inventory.txt
+      - run: cat ~/project/.circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
