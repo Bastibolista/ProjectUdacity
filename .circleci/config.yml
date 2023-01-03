@@ -187,8 +187,6 @@ jobs:
           root: ~/
           paths:
             - project/backend
-      - store_artifacts:
-          path: ~/project/backend
       - run:
           name: Configure server
           command: |
