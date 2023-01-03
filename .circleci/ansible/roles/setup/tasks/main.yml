@@ -29,7 +29,12 @@
     path: ~/project
     state: directory
 
+- name: "list directory"
+  shell: |
+    pwd
+    ls -lhtra
+
 - name: "copy directory"
   template:
-    src: "~/backend"
+    src: "~/"
     dest: "~/project/"
