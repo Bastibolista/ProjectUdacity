@@ -144,6 +144,8 @@ jobs:
               --query "Reservations[*].Instances[*].[PublicDnsName]" \
               --output text >> ~/project/.circleci/ansible/inventory.txt
       - run: cat ~/project/.circleci/ansible/inventory.txt
+      - run: pwd
+      - run: ls
       - persist_to_workspace:
           root: ~/
           paths:
@@ -177,6 +179,10 @@ jobs:
             cat inventory.txt
             sed -i '/^$/d' inventory.txt
             cat inventory.txt
+      - run: hostname
+      - run: pwd
+      - run: ls
+      - run: ls -lhtrR
       - run:
           name: Configure server
           command: |
