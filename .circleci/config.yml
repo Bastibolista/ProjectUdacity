@@ -232,7 +232,7 @@ jobs:
           command: |
             # your code here
             yum -y install tar gzip
-            yum install gcc-c++ make
+            yum -y install gcc-c++ make
             # Install nodejs on Fedora Core based on nodesource website instructions
             curl --silent --location https://rpm.nodesource.com/setup_16.x | bash -
             yum -y install nodejs
