@@ -156,7 +156,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.9.16
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - add_ssh_keys:
@@ -167,10 +167,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            # apk add --update ansible
-            apt-get update -y
-            apt install ansible -y
-            which ansible
+            apk add --update ansible # install the dependencies needed for your playbook
+            apk add tar gzip curl jq
+            pip install awscli
       - run: apt install -y tar gzip awscli
       - run:
           name: Verify inventory

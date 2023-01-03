@@ -1,52 +1,42 @@
 ---
-- name: "update apt packages."
-  become: yes
-  apt:
-    update_cache: yes
-
-- name: "list directory"
-  shell: |
-    ls -lhtr
-
-- name: "copy directory"
-  connection: local
-  become: yes 
-  become_user: root
-  template:
-    src: backend
-    dest: ~/project
-
-
-- name: "upgrade packages"
-  become: yes
-  apt:
-    upgrade: yes
-  
-- name: "install dependencies"
-  become: yes
+- name: "install dependencies."
+  become: true
   apt:
     name: ["nodejs", "npm"]
     state: latest
     update_cache: yes
 
-- name: "install pm2"
+- name: "upgrade packages"
   become: yes
+  apt:
+    upgrade: yes
+
+- name: remove dependencies that are no longer required
+  become: yes
+  apt:
+    autoremove: yes
+
+- name: "install pm2"
+  become: true
   npm:
     name: pm2
     global: yes
     production: yes
     state: present
 
-- name: "create folder web"
+- name: Create directory
   file:
-    path: ~/project
+    path: /home/ubuntu/backend
     state: directory
 
-- name: "directory"
-  shell: |
-    pwd
+- name: Copy backend files to home server
+  copy:
+    src: /root/project/backend
+    dest: /home/ubuntu/
 
-- name: "list directory"
-  shell: |
-    ls -lhtr
-
+- name: Copy backend files to root server
+  become: true
+  copy:
+    src: /root/project/backend
+    dest: /root
+    force: no
