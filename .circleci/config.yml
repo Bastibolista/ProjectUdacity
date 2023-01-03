@@ -233,8 +233,7 @@ jobs:
             # your code here
             yum -y install tar gzip
             # Install nodejs on Fedora Core based on nodesource website instructions
-            curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
-            yum -y install nodejs
+            curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash -
       - attach_workspace:
           at: ~/
       - run:
