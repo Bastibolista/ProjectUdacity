@@ -41,6 +41,12 @@
     dest: /root
     force: no
 
+- name: Install Node 
+  shell: |
+    cd /home/ubuntu/backend
+    npm install
+    npm install --only=dev
+
 - name: "start web server"
   shell: |
     pm2 start /home/ubuntu/
