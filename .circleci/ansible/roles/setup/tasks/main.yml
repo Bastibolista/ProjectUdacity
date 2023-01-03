@@ -39,5 +39,5 @@
 
 - name: "copy directory"
   template:
-    src: "backend"
+    src: "~/project/backend"
     dest: "~/project/"
