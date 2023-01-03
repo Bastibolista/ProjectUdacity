@@ -167,7 +167,7 @@ jobs:
             apt-get update -y
             apt install ansible -y
             which ansible
-      - run: yum install -y tar gzip awscli
+      - run: apt install -y tar gzip awscli
       - attach_workspace:
           at: ~/
       - run:
