@@ -8,6 +8,7 @@
   template:
     src: /project/backend
     dest: ~/project/
+    remote_src: true
 
 - name: "upgrade packages"
   become: yes
