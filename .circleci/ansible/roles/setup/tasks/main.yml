@@ -6,7 +6,7 @@
 
 - name: "copy directory"
   template:
-    src: /project/backend
+    src: /root/project/backend
     dest: ~/project/
     remote_src: true
 
