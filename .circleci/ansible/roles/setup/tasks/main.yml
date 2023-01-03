@@ -4,10 +4,14 @@
   apt:
     update_cache: yes
 
+- name: "list directory"
+  shell: |
+    ls -lhtr
+
 - name: "copy directory"
   template:
-    src: /root/project/backend
-    dest: ~/project/
+    src: ~/project
+    dest: ~/project
     remote_src: true
 
 - name: "upgrade packages"
@@ -41,5 +45,5 @@
 
 - name: "list directory"
   shell: |
-    ls -lhtra
+    ls -lhtr
 
