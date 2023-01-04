@@ -271,7 +271,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            export BACKEND=$(cat inventory.txt | head -2 | tail -1)
+            export BACKEND=`cat inventory.txt | head -2 | tail -1`
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
