@@ -9,7 +9,32 @@ commands:
           command: |
             aws cloudformation delete-stack --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
             aws cloudformation delete-stack --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
+            # (see https://docs.aws.amazon.com/AmazonS3/latest/dev/delete-or-empty-bucket.html)
+            aws s3 rb s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --force
 
+
+  revert-migrations:
+    description: Revert the last migration if successfully run in the current workflow.
+    parameters:
+      id:
+        type: string
+      when:
+        type: string   
+    steps:
+      - run:
+          name: Revert migrations
+          # Add when this will run
+          command: |
+            # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
+            SUCCESS = $(curl --insecure https://kvdb.io/J1774XYarFJbuWV9PbuBGG/migration_${CIRCLE_WORKFLOW_ID:0:7})
+            if(( $SUCCESS==1 )); 
+            then
+              cd ~/project/backend
+              npm install
+            #Add revert code here. You can find this in the Getting Started section.
+              npm run migrations:revert
+            fi
+          when: on_fail
 jobs:
   build-frontend:
     docker:
@@ -221,6 +246,12 @@ jobs:
               # If you are using kvdb.io, generate the bucket ID "9GE4jRtKznmVKRfvdBABBe" in your local terminal first
               curl --insecure https://kvdb.io/J1774XYarFJbuWV9PbuBGG/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
+      - destroy-environment:
+          id: ${CIRCLE_WORKFLOW_ID}
+          when: on_fail  
+      - revert-migrations:
+          id: ${CIRCLE_WORKFLOW_ID}
+          when: on_fail
 
   deploy-frontend:
     docker:
@@ -253,8 +284,33 @@ jobs:
             npm install
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
-            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive    
+            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+      - destroy-environment:
+          id: ${CIRCLE_WORKFLOW_ID}
+          when: on_fail  
+      - revert-migrations:
+          id: ${CIRCLE_WORKFLOW_ID}
+          when: on_fail
+  
                     
+  #deploy-backend:
+  #  docker:
+  #    - image: python:3.7-alpine3.11
+  #  steps:
+  #    - checkout
+  #    - add_ssh_keys:
+  #        fingerprints:
+  #          - "f9:12:37:28:57:7b:c9:02:da:4a:5e:b0:23:c0:f0:54"
+  #    - attach_workspace:
+  #        at: ~/
+  #    - run:
+  #        name: Install dependencies
+  #        command: |
+  #          # your code here
+  #    - run:
+  #        name: Deploy backend
+  #        command: |
+  #          # your code here
 
 workflows:
   default:
