@@ -22,7 +22,7 @@ commands:
           # Add when this will run
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = $(curl --insecure https://kvdb.io/J1774XYarFJbuWV9PbuBGG/migration_${CIRCLE_WORKFLOW_ID:0:7})
+            export SUCCESS=$(curl --insecure https://kvdb.io/J1774XYarFJbuWV9PbuBGG/migration_${CIRCLE_WORKFLOW_ID:0:7})
             if(( $SUCCESS==1 )); 
             then
               cd ~/project/backend
@@ -333,7 +333,7 @@ jobs:
           command: |
             BACKEND_IP=`cat .circleci/ansible/inventory.txt | head -2 | tail -1`
             echo "BACKEND_IP: ${BACKEND_IP}"
-            ansible-playbook -i inventory.txt deploy-backend.yml
+            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
       - destroy-environment
       - revert-migrations
 
