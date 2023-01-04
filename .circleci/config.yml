@@ -264,7 +264,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            export BACKEND=$(aws ec2 describe-instances --filters "Name=tag:project,Values=udapeople" --query "Reservations[*].Instances[*].[PublicDnsName]" --output text)
+            export BACKEND=$(cat .circleci/ansible/inventory.txt | head -2 | tail -1)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
