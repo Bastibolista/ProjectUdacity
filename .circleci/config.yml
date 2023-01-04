@@ -271,7 +271,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            export BACKEND=$(cat .circleci/ansible/inventory.txt | head -2 | tail -1)
+            export BACKEND=$(cat inventory.txt | head -2 | tail -1)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
@@ -326,6 +326,8 @@ jobs:
             BACKEND_IP=`cat inventory.txt | head -2 | tail -1`
             echo "BACKEND_IP: ${BACKEND_IP}"
             ansible-playbook -i inventory.txt deploy-backend.yml
+      - destroy-environment
+      - revert-migrations
 
 workflows:
   default:
@@ -347,4 +349,6 @@ workflows:
       - run-migrations:
           requires: [configure-infrastructure]
       - deploy-frontend:
+          requires: [run-migrations]
+      - deploy-backend:
           requires: [run-migrations]
