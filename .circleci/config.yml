@@ -279,7 +279,7 @@ jobs:
             cat .circleci/ansible/inventory.txt | head -2 | tail -1
             cat .circleci/ansible/inventory.txt | head -2 | tail -1
             BACKEND=`cat .circleci/ansible/inventory.txt | head -2 | tail -1`
-            export API_URL="http://${BACKEND_IP}:3030"
+            API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
             cat frontend/.env
