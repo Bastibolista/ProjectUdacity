@@ -273,10 +273,10 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            cat circleci/ansible/inventory.txt
-            sed -i '/^$/d' inventory.txt
-            cat inventory.txt
-            cat inventory.txt | head -2 | tail -1
+            cat .circleci/ansible/inventory.txt
+            sed -i '/^$/d' .circleci/ansible/inventory.txt
+            cat .circleci/ansible/inventory.txt
+            cat .circleci/ansible/inventory.txt | head -2 | tail -1
             cat .circleci/ansible/inventory.txt | head -2 | tail -1
             BACKEND=`cat .circleci/ansible/inventory.txt | head -2 | tail -1`
             export API_URL="http://${BACKEND_IP}:3030"
