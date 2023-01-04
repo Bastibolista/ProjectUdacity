@@ -383,7 +383,7 @@ jobs:
           command: |
             echo $URL
             curl $URL
-            if curl "${URL}/api/status" | grep "ok"
+            if curl "${URL}" | grep "ok"
             then
               return 0
             else
