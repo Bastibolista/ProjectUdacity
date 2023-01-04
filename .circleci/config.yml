@@ -267,10 +267,11 @@ jobs:
             cd .circleci/ansible
             cat inventory.txt
             sed -i '/^$/d' inventory.txt
-            cat inventory.txt
+            cat inventory.txt | head -2 | tail -1
       - run:
           name: Get backend url
           command: |
+            cat inventory.txt | head -2 | tail -1
             BACKEND=`cat inventory.txt | head -2 | tail -1`
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
@@ -318,13 +319,18 @@ jobs:
             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/.env"
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/.env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Verify inventory
+          command: |
+            cd .circleci/ansible
+            cat inventory.txt
+            sed -i '/^$/d' inventory.txt
+            cat inventory.txt | head -2 | tail -1
       - run:
           name: Deploy backend
           command: |
-            cd .circleci/ansible
-            cat .circleci/ansible/inventory.txt
-            sed -i '/^$/d' inventory.txt
-            cat .circleci/ansible/inventory.txt
             BACKEND_IP=`cat .circleci/ansible/inventory.txt | head -2 | tail -1`
             echo "BACKEND_IP: ${BACKEND_IP}"
             ansible-playbook -i inventory.txt deploy-backend.yml
