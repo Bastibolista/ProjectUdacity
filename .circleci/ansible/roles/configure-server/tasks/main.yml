@@ -1,0 +1,57 @@
+---
+- name: "update apt packages."
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: "upgrade packages"
+  become: yes
+  apt:
+    upgrade: yes
+
+- name: remove dependencies that are no longer required
+  become: yes
+  apt:
+    autoremove: yes
+
+- name: "install dependencies."
+  become: true
+  apt:
+    name: ["nodejs", "npm"]
+    state: latest
+    update_cache: yes
+
+- name: "install pm2"
+  become: true
+  npm:
+    name: pm2
+    global: yes
+    production: yes
+    state: present
+
+#- name: Create directory
+#  file:
+#    path: /home/ubuntu/backend
+#    state: directory
+#
+#- name: Copy backend files to home server
+#  copy:
+#    src: /root/project/backend
+#    dest: /home/ubuntu/
+#
+#- name: Copy backend files to root server
+#  become: true
+#  copy:
+#    src: /root/project/backend
+#    dest: /root
+#    force: no
+#
+#- name: Install Node 
+#  shell: |
+#    cd /home/ubuntu/backend
+#    npm install
+#    npm install --only=dev
+#
+#- name: "start web server"
+#  shell: |
+#    pm2 start /home/ubuntu/
